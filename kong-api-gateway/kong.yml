@@ -1,0 +1,36 @@
+_format_version: "2.1"
+
+services:
+  - name : gists-google
+    url: https://api.github.com
+    routes:
+      - name: gists-routes
+        paths:
+          - /gists
+#API key authentication is one of the most popular ways to conduct API authentication and can be implemented to create and delete access keys as required.
+        plugins:
+          - name: key-auth
+          # enabled: false
+consumers:
+  - custom_id: consumer
+    username: consumer
+    keyauth_credentials:
+      - key: test-header-key
+#rate-limiting service. only possible config 5 minutes per 5 requests.
+plugins:
+  - name: rate-limiting
+    config:
+      minute: 5
+      policy: local
+#The Proxy Caching plugin provides this fast performance using a reverse proxy cache implementation. It caches response entities based on the request method, configurable response code, content type, and can cache per Consumer or per API.
+  - name: proxy-cache
+    config:
+      content_type:
+        - "application/json; charset=utf-8"
+      cache_ttl: 30
+      strategy: memory
+  - name: ip-restriction
+    route: gists-routes
+    config:
+      allow:
+        - ${{ env "DECK_IP_ADDRESS" }}

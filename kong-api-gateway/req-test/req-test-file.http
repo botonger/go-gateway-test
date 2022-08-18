@@ -1,0 +1,21 @@
+#kong-gw Admin
+GET http://localhost:8001/services
+Accept: application/json
+
+###
+
+#kong-test
+GET http://localhost:8000/gists
+Accept: application/json
+
+###
+
+#To test more rapidly, the cache can be deleted by calling the Admin API:
+DELETE http://localhost:8001/proxy-cache
+
+###
+
+#api key test
+GET http://localhost:8000/gists
+Accept: application/json
+apikey: test-header-key
