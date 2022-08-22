@@ -19,3 +19,56 @@ DELETE http://localhost:8001/proxy-cache
 GET http://localhost:8000/gists
 Accept: application/json
 apikey: test-header-key
+
+###
+
+#consumer ip-restriction test - consumer
+#allow: 192.0.0.1/8, 172.0.0.1/8
+GET http://localhost:8000/gists
+Accept: application/json
+apikey: test-header-key
+
+###
+
+#consumer ip-restriction test - consumer1
+#allow: 172.0.0.1/8
+GET http://localhost:8000/gists
+Accept: application/json
+apikey: test-header-key1
+
+###
+
+#consumer ip-restriction test - consumer2
+#allow: 192.0.0.1/8
+GET http://localhost:8000/gists
+Accept: application/json
+apikey: test-header-key2
+
+###
+
+#consumer ip-restriction test - consumer3
+#disallow: 192.0.0.1/8, allow: 172.0.0.1/8
+GET http://localhost:8000/gists
+Accept: application/json
+apikey: test-header-key3
+
+###
+
+#consumer ip-restriction test - consumer4
+#allow: 192.0.0.1/8, disallow: 172.0.0.1/8
+GET http://localhost:8000/gists
+Accept: application/json
+apikey: test-header-key4
+
+###
+
+# curl -X POST http://localhost:8001/consumers/consumer3/plugins
+#    --data "name=ip-restriction"
+#
+#    --data "config.allow=192.0.0.1/8"
+POST http://localhost:8001/consumers/consumer3/plugins
+Content-Type: application/x-www-form-urlencoded
+
+name=ip-restriction&config.allow=192.0.0.1/8
+
+###

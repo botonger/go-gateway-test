@@ -12,10 +12,60 @@ services:
           - name: key-auth
           # enabled: false
 consumers:
+  #consumer ip-restriction test - consumer
+  #allow: 192.0.0.1/8, 172.0.0.1/8
   - custom_id: consumer
     username: consumer
     keyauth_credentials:
       - key: test-header-key
+    plugins:
+      - name: ip-restriction
+        config:
+          allow:
+            - 192.0.0.1/8
+            - 172.0.0.1/8
+    #consumer ip-restriction test - consumer1
+    #allow: 172.0.0.1/8
+  - custom_id: consumer1
+    username: consumer1
+    keyauth_credentials:
+      - key: test-header-key1
+    plugins:
+      - name: ip-restriction
+        config:
+          allow:
+            - 172.0.0.1/8
+  - custom_id: consumer2
+    username: consumer2
+    keyauth_credentials:
+      - key: test-header-key2
+    plugins:
+      - name: ip-restriction
+        config:
+          allow:
+            - 192.0.0.1/8
+  - custom_id: consumer3
+    username: consumer3
+    keyauth_credentials:
+      - key: test-header-key3
+    plugins:
+      - name: ip-restriction
+        config:
+          blacklist:
+            - 192.0.0.1/8
+          whitelist:
+            - 172.0.0.1/8
+  - custom_id: consumer4
+    username: consumer4
+    keyauth_credentials:
+      - key: test-header-key4
+    plugins:
+      - name: ip-restriction
+        config:
+          whitelist:
+            - 192.0.0.1/8
+          blacklist:
+            - 172.0.0.1/8
 #rate-limiting service. only possible config 5 minutes per 5 requests.
 plugins:
   - name: rate-limiting
